@@ -179,3 +179,6 @@ if __name__ == "__main__":
 # Connect on `/dev/ttyUSB0` at 115200, CRLF endings, RTS/CTS enabled, no XON/XOFF:
 # bash
 # python putty_like.py /dev/ttyUSB0 115200 CRLF 1 0
+
+# python putty_like.py <COM port> [baudrate] [lineending] [rtscts] [xonxoff]
+# python putty_like.py telnet <host> [port]
