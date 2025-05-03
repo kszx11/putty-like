@@ -37,9 +37,44 @@ def get_char():
     """Read one character from stdin without waiting for Enter."""
     if sys.platform.startswith('win'):
         ch = msvcrt.getwch()
+        # Extended/function keys on Windows: prefix 0x00 or 0xe0
+        if ch in ('\x00', '\xe0'):
+            ch2 = msvcrt.getwch()
+            code = ord(ch2)
+            # Map function keys F1-F12 to ANSI escape sequences
+            ext_map = {
+                59: '\x1bOP',   # F1
+                60: '\x1bOQ',   # F2
+                61: '\x1bOR',   # F3
+                62: '\x1bOS',   # F4
+                63: '\x1b[15~', # F5
+                64: '\x1b[17~', # F6
+                65: '\x1b[18~', # F7
+                66: '\x1b[19~', # F8
+                67: '\x1b[20~', # F9
+                68: '\x1b[21~', # F10
+                133: '\x1b[23~',# F11
+                134: '\x1b[24~', # F12
+                # Navigation and control keys
+                72: '\x1b[A',    # Up Arrow
+                80: '\x1b[B',    # Down Arrow
+                75: '\x1b[D',    # Left Arrow
+                77: '\x1b[C',    # Right Arrow
+                71: '\x1b[1~',   # Home
+                79: '\x1b[4~',   # End
+                73: '\x1b[5~',   # Page Up
+                81: '\x1b[6~',   # Page Down
+                82: '\x1b[2~',   # Insert
+                83: '\x1b[3~'    # Delete
+            }
+            seq = ext_map.get(code)
+            if seq:
+                return seq
+            return ''
         # Handle Ctrl-C
         if ch == '\x03':
             raise KeyboardInterrupt
+        # Normalize Enter
         return '\n' if ch == '\r' else ch
     # Unix / Linux / Mac
     ch = sys.stdin.read(1)
