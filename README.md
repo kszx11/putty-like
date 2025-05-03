@@ -1,2 +1,2 @@
 # putty-like
-Serial terminal written in Python
+Serial and Telnet client written in Python
