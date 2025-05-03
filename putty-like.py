@@ -316,7 +316,7 @@ def main():
                 ser.write(line_ending_bytes)
                 # echo newline for serial only
                 if not getattr(ser, 'telnet', False):
-                    sys.stdout.write('\n')
+                    # sys.stdout.write('\n')
                     sys.stdout.flush()
                 continue
             # Normal character: send only; rely on server echo in telnet mode
