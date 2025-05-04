@@ -1,3 +1,4 @@
+# Written by Kimball Springall
 import sys
 import threading
 import time
